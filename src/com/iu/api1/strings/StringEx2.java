@@ -11,18 +11,20 @@ public class StringEx2 {
 		String fileName = sc.next(); // ******.jpg 
 		//이미지파일이면 정상적인파일, 이미지파일이 아니면 정상적인 파일이 아니다
 		String result = fileName.substring(fileName.lastIndexOf(".")+1);
-		
+		boolean flag = true;
 		for(int i=0;i<names.length;i++) {
+			
 		if(result.equals(names[i])) {
 			System.out.println("정상적인 파일입니다.");
-			break;
-		}else {
+			flag=!flag;
+			}
+		}
+		if(flag)
 			System.out.println("비정상적인 파일입니다.");
 			
 		}
-		}
-		
+	
 
 	}
 
-}
+
