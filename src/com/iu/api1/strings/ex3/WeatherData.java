@@ -17,6 +17,7 @@ public class WeatherData {
 	public WeatherDTO[] init() {
 			
 		String [] datas = this.data.split(",");
+		
 		//split으로 나오는 데이터를 새로운 배열로 생성, 4개씩의 정보가 묶이는 배열.
 		WeatherDTO [] weathers = new WeatherDTO[datas.length/4];
 		
@@ -26,9 +27,10 @@ public class WeatherData {
 
 			//1. int idx 사용 i증감식 : i=i+4
 			weatherDTO.setCity(datas[i]);
-			weatherDTO.setGion(datas[i+1]);
+			
+			weatherDTO.setGion(Integer.parseInt(datas[i+1]));
 			weatherDTO.setStatus(datas[i+2]);
-			weatherDTO.setMise(datas[i+3]);
+			weatherDTO.setMise(Integer.parseInt(datas[i+3]));
 //			
 			//2. int idx 사용 i증감식 : i++
 //			weatherDTO.setCity(datas[i]);
