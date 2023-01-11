@@ -1,6 +1,11 @@
 package com.iu.api2.collections.ex1;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -19,6 +24,29 @@ public class StudentDAO {
 		sb.append("choa, 4, 71, 25, 99 ");
 		
 	}
+	
+	//학생정보백업
+	//현재시간을 밀리세컨즈로 파일명으로 해서 백업할때마다 파일작성
+	public void backupStudent() {
+		Calendar ca = new GregorianCalendar();
+		int ms = ca.get(Calendar.MILLISECOND);
+		
+		File file = new File("C:\\fileTest","ms");
+		
+		try {
+			FileWriter fw = new FileWriter(file,true);
+			fw.write();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	
+	
 	//학생정보삭제
 	public int removeStudent(ArrayList<StudentDTO> ar) {
 		//삭제확인용 변수
