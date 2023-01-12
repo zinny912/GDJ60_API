@@ -1,6 +1,9 @@
 package com.iu.api2.collections.ex1;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,21 +30,49 @@ public class StudentDAO {
 	
 	//학생정보백업
 	//현재시간을 밀리세컨즈로 파일명으로 해서 백업할때마다 파일작성
-	public void backupStudent() {
-		Calendar ca = new GregorianCalendar();
-		int ms = ca.get(Calendar.MILLISECOND);
+	public void studentBackUp(ArrayList<StudentDTO> ar) {
+		//Calendar ca = new GregorianCalendar();
+		Calendar ca = Calendar.getInstance();
+		long time = ca.getTimeInMillis();
 		
-		File file = new File("C:\\fileTest","ms");
+		File file = new File("C:\\fileTest",time+".txt");
+		
+		FileWriter fw = null; 
+		//finally에서 사용하기위해서 try문 밖에서 선언
 		
 		try {
-			FileWriter fw = new FileWriter(file,true);
-			fw.write();
+			fw = new FileWriter(file); // 옵션이 false이면 덮어씌우기, true면 append(추가)
 			
-		} catch (Exception e) {
+			for(StudentDTO studentDTO:ar) {
+				StringBuffer sb = new StringBuffer();
+				sb.append(studentDTO.getName());
+				sb.append("-");
+				sb.append(studentDTO.getNum());
+				sb.append("-");
+				sb.append(studentDTO.getKor());
+				sb.append("-");
+				sb.append(studentDTO.getEng());
+				sb.append("-");
+				sb.append(studentDTO.getMath());
+				sb.append("\r\n");
+				//append로 받은 sb를 string으로 -> toString
+				fw.write(sb.toString());	
+				fw.flush();
+			}
+			
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				fw.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
+			
 		
 	}
 	
@@ -77,10 +108,6 @@ public class StudentDAO {
 			
 		}
 		return result;
-		
-		
-		
-		
 		
 	}
 	
@@ -140,30 +167,69 @@ public class StudentDAO {
 	//StudentDAO(){}메서드에 있는 정보를 StudentDTO클래스에 입력하기위햄
 	//학생정보초기화
 	public ArrayList<StudentDTO> init() {
+	
+		//1.파일정보 File
+		File file = new File("C:\\fileTest", "student.txt");
+		
+		//2.파일내용 읽기 위해서 연결 준비
+			FileReader fr = null;
+			BufferedReader br = null;
+			
+			ArrayList<StudentDTO> ar = new ArrayList<>();	
+			try {
+				fr=	new FileReader(file);
+				br = new BufferedReader(fr);
+				String data = null;
+				
+				while((data=br.readLine()) != null) {
+					data=data.replace(" ", "-");
+					data=data.replace(",", "");
+					StringTokenizer st = new StringTokenizer(data,"-");	
+					
+					while(st.hasMoreTokens()) {
+						StudentDTO studentDTO = new StudentDTO();
+						studentDTO.setName(st.nextToken());
+						studentDTO.setNum(Integer.parseInt(st.nextToken()));
+						studentDTO.setKor(Integer.parseInt(st.nextToken()));
+						studentDTO.setEng(Integer.parseInt(st.nextToken()));
+						studentDTO.setMath(Integer.parseInt(st.nextToken()));
+						studentDTO.setTotal(studentDTO.getKor()+studentDTO.getEng()+studentDTO.getMath());
+						studentDTO.setAvg(studentDTO.getTotal()/3.0);
+						//while문이 종료되면 사라지는 데이터가 되기때문에, 어딘가에 정보를 저장해주어야함-------------> ArrayList 
+						ar.add(studentDTO); //만든 데이터를 array리스트에 저장
+					}
+				}
+				
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				
+				try {
+					br.close();
+					fr.close();
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				}
+				
+			}
+			
+		
+		
 		//sb를 String 타입으로 변경 toString();
 		String data = this.sb.toString();
-		//1." "를 "-"로변경
-		data=data.replace(" ", "-");
-		//2.","제거
-		data=data.replace(",", "");
+//		//1." "를 "-"로변경
+//		data=data.replace(" ", "-");
+//		//2.","제거
+//		data=data.replace(",", "");
 		
 		//System.out.println(data); //코드를 실행해서 정상작동하는지 확인
 		//tokenizer를 사용하기위해 객체생성, import되어야함
-		StringTokenizer st = new StringTokenizer(data,"-");
-		ArrayList<StudentDTO> ar = new ArrayList<>();
-		while(st.hasMoreTokens()) {
-			StudentDTO studentDTO = new StudentDTO();
-			studentDTO.setName(st.nextToken());
-			studentDTO.setNum(Integer.parseInt(st.nextToken()));
-			studentDTO.setKor(Integer.parseInt(st.nextToken()));
-			studentDTO.setEng(Integer.parseInt(st.nextToken()));
-			studentDTO.setMath(Integer.parseInt(st.nextToken()));
-			studentDTO.setTotal(studentDTO.getKor()+studentDTO.getEng()+studentDTO.getMath());
-			studentDTO.setAvg(studentDTO.getTotal()/3.0);
-			//while문이 종료되면 사라지는 데이터가 되기때문에, 어딘가에 정보를 저장해주어야함-------------> ArrayList 
-			ar.add(studentDTO); //만든 데이터를 array리스트에 저장
-		}
-		
+				
+	
 		return ar;
 		
 	}

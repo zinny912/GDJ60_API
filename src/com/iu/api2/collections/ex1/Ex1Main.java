@@ -20,22 +20,22 @@ public class Ex1Main {
 
 		
 		
-		//new StudentController().start();
-		Calendar ca = Calendar.getInstance();
-		int ms = ca.get(Calendar.MILLISECOND);
-		System.out.println(ms);
-		File file = new File("C:\\fileTes);
-		
-		try {
-			FileWriter fw = new FileWriter(file);
-			fw.write("test\r\n");
-			fw.flush();
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		new StudentController().start();
+//		Calendar ca = Calendar.getInstance();
+//		int ms = ca.get(Calendar.MILLISECOND);
+//		System.out.println(ms);
+//		File file = new File("C:\\fileTes);
+//		
+//		try {
+//			FileWriter fw = new FileWriter(file);
+//			fw.write("test\r\n");
+//			fw.flush();
+//			
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
 		
 //		StudentDAO dao = new StudentDAO();
 //		ArrayList<StudentDTO> ar =dao.init();
