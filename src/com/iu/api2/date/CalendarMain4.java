@@ -10,7 +10,7 @@ public class CalendarMain4 {
 		//2023년 1월 11일 => format 
 		SimpleDateFormat sd = new SimpleDateFormat("yyyy년 MM월 dd일 E");
 		//(yyyy-MM-dd-E)패턴형식 보면서 활용
-		sd.applyPattern(yyyy-MM-dd-E);
+		sd.applyPattern("yyyy-MM-dd-E");
 		String p = sd.format(ca.getTime());
 		
 		System.out.println(p);

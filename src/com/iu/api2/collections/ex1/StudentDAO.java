@@ -71,13 +71,8 @@ public class StudentDAO {
 				e.printStackTrace();
 			}
 		}
-		
-			
-		
 	}
-	
-	
-	
+		
 	//학생정보삭제
 	public int removeStudent(ArrayList<StudentDTO> ar) {
 		//삭제확인용 변수
@@ -137,11 +132,6 @@ public class StudentDAO {
 		
 	}
 	
-	
-	
-	
-	
-	
 	//학생정보검색
 	//어디선가 학생정보를 받아와야함 -> studentDTO:학생한명의 정보 -> arrayList<StudentDTO> ar 학생전체정보
 	public StudentDTO findByName(ArrayList<StudentDTO> ar) {
@@ -167,15 +157,29 @@ public class StudentDAO {
 	//StudentDAO(){}메서드에 있는 정보를 StudentDTO클래스에 입력하기위햄
 	//학생정보초기화
 	public ArrayList<StudentDTO> init() {
-	
+		//sb를 String 타입으로 변경 toString();
+		//String data = this.sb.toString();
+		File file = new File("C:\\fileTest2");
+		
+		String [] names = file.list();
+		long max = 0;
+		for(String name:names) { //234.txt
+			name = name.substring(0,name.lastIndexOf("."));
+			long date = Long.parseLong(name);
+			
+			if(date>max) {
+				max = date;
+			}
+		}
+		
 		//1.파일정보 File
-		File file = new File("C:\\fileTest", "student.txt");
+		file = new File(file,max+".txt");
 		
 		//2.파일내용 읽기 위해서 연결 준비
 			FileReader fr = null;
 			BufferedReader br = null;
-			
 			ArrayList<StudentDTO> ar = new ArrayList<>();	
+			
 			try {
 				fr=	new FileReader(file);
 				br = new BufferedReader(fr);
@@ -186,41 +190,33 @@ public class StudentDAO {
 					data=data.replace(",", "");
 					StringTokenizer st = new StringTokenizer(data,"-");	
 					
-					while(st.hasMoreTokens()) {
-						StudentDTO studentDTO = new StudentDTO();
-						studentDTO.setName(st.nextToken());
-						studentDTO.setNum(Integer.parseInt(st.nextToken()));
-						studentDTO.setKor(Integer.parseInt(st.nextToken()));
-						studentDTO.setEng(Integer.parseInt(st.nextToken()));
-						studentDTO.setMath(Integer.parseInt(st.nextToken()));
-						studentDTO.setTotal(studentDTO.getKor()+studentDTO.getEng()+studentDTO.getMath());
-						studentDTO.setAvg(studentDTO.getTotal()/3.0);
-						//while문이 종료되면 사라지는 데이터가 되기때문에, 어딘가에 정보를 저장해주어야함-------------> ArrayList 
-						ar.add(studentDTO); //만든 데이터를 array리스트에 저장
-					}
+					StudentDTO studentDTO = new StudentDTO();
+					studentDTO.setName(st.nextToken());
+					studentDTO.setNum(Integer.parseInt(st.nextToken()));
+					studentDTO.setKor(Integer.parseInt(st.nextToken()));
+					studentDTO.setEng(Integer.parseInt(st.nextToken()));
+					studentDTO.setMath(Integer.parseInt(st.nextToken()));
+					studentDTO.setTotal(studentDTO.getKor()+studentDTO.getEng()+studentDTO.getMath());
+					studentDTO.setAvg(studentDTO.getTotal()/3.0);
+					//while문이 종료되면 사라지는 데이터가 되기때문에, 어딘가에 정보를 저장해주어야함-------------> ArrayList 
+					ar.add(studentDTO); //만든 데이터를 array리스트에 저장
 				}
-				
-				
+										
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
-				
 				try {
 					br.close();
 					fr.close();
-					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					//e.printStackTrace();
 				}
-				
 			}
 			
-		
-		
-		//sb를 String 타입으로 변경 toString();
-		String data = this.sb.toString();
+				
+	
 //		//1." "를 "-"로변경
 //		data=data.replace(" ", "-");
 //		//2.","제거
@@ -228,8 +224,7 @@ public class StudentDAO {
 		
 		//System.out.println(data); //코드를 실행해서 정상작동하는지 확인
 		//tokenizer를 사용하기위해 객체생성, import되어야함
-				
-	
+			
 		return ar;
 		
 	}
