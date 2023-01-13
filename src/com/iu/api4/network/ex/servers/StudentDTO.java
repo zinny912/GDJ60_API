@@ -1,7 +1,7 @@
-package com.iu.api2.collections.ex1;
+package com.iu.api4.network.ex.servers;
 
 public class StudentDTO {
-	
+//학생 한명의 정보를 가지고 있는 클래스
 	private String name;
 	private int num;
 	private int kor;
@@ -9,6 +9,8 @@ public class StudentDTO {
 	private int math;
 	private int total;
 	private double avg;
+	
+	
 	
 	
 	public String getName() {
@@ -55,6 +57,6 @@ public class StudentDTO {
 	}
 	
 	
-
+	
+	
 }
-

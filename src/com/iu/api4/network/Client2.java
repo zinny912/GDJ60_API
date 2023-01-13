@@ -1,7 +1,10 @@
 package com.iu.api4.network;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
@@ -21,32 +24,42 @@ public class Client2 {
 		Scanner scanner = new Scanner(System.in);
 		Socket sc = null;
 		
+		InputStream is = null;
+		InputStreamReader ir = null;
+		BufferedReader br = null;
+		
 		OutputStream os = null;
 		OutputStreamWriter ow = null;
 		BufferedWriter bw = null;
-		int select =0;
+		
+		
 		
 		try {
 			sc = new Socket("192.168.1.116",8282);
-			System.out.println("접속성공");
-			
-			while(true) {
-			System.out.println("1.점심 2.저녁 3.종료");
-			select = scanner.nextInt();
 			
 			os = sc.getOutputStream();
 			ow = new OutputStreamWriter(os);
 			bw = new BufferedWriter(ow);
 			
-			bw.write(select+"\r\n");
-			bw.flush();
+			is= sc.getInputStream();
+			ir= new InputStreamReader(is);
+			br= new BufferedReader(ir);
 			
-			if(select==3) {
-				break;
-			}
+			
+			while(true) {
+				System.out.println("1.점심 2.저녁 3.종료");
+				int select = scanner.nextInt();
+				bw.write(select+"\r\n");
+				bw.flush();				
+							
+				if(select==3) {
+					System.out.println("프로그램 종료");
+					break;
+				}
+				String menu = br.readLine();
+				System.out.println("오늘 메뉴는 : " +menu);
 					
-		 }	
-				
+			}	
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
