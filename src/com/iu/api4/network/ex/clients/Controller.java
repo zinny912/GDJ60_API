@@ -7,8 +7,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-
+import java.net.Socket;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Controller {
 	
@@ -50,10 +51,7 @@ public class Controller {
 			
 			String data = scanner.next();
 			int select = Integer.parseInt(data);
-			
-			bw.write(select+"\r\n");
-			bw.flush();		
-				
+						
 				if(select==5) {
 				System.out.println("프로그램 종료");
 				break;
@@ -65,6 +63,11 @@ public class Controller {
 				case 1:
 					System.out.println("전체학생정보 출력");
 					num = br.readLine();
+					StringTokenizer st = new StringTokenizer(num,"-");
+					
+					System.out.println(st);
+					
+					
 					
 					System.out.println(num);
 					
@@ -97,8 +100,10 @@ public class Controller {
 					num=br.readLine();
 					System.out.println("프로그램 종료");
 					check=!check;
-					
-					
+			}
+				if(check) {
+					bw.write(select+"\r\n");
+					bw.flush();			
 			}	
 		} 
 		}catch (Exception e) {
